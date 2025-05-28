@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CountryCard from "./CountryCard";
 import { getCountriesByName, getCountriesByRegion } from "@/utils/action";
 import { Button } from "./ui/button";
+import LoadingCards from "./LoadingCards";
 
 type CountriesContainerProps = {
   region: string;
@@ -35,9 +36,11 @@ function CountriesContainer({
   clearSearch,
 }: CountriesContainerProps) {
   const [countries, setCountries] = useState<CountryCardProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     async function getCountries() {
+      setLoading(true);
       let data;
       if (search.trim()) {
         data = await getCountriesByName(search);
@@ -49,6 +52,7 @@ function CountriesContainer({
           a.name.common.localeCompare(b.name.common)
       );
       setCountries(sorted);
+      setLoading(false);
     }
 
     getCountries();
@@ -56,7 +60,9 @@ function CountriesContainer({
 
   return (
     <div className="grid md:grid-cols-2 gap-10 lg:grid-cols-4 mt-8 md:mt-12 px-6 md:px-0">
-      {countries.length === 0 ? (
+      {loading ? (
+        <LoadingCards className="col-span-full" />
+      ) : search.trim() !== "" && countries.length === 0 ? (
         <div className="py-12 col-span-full">
           <p className="mb-4 text-lg font-semibold">
             No results.
