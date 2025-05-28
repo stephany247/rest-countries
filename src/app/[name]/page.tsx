@@ -37,7 +37,7 @@ export default async function CountryPage({
         tld={country.tld?.[0] || "N/A"}
         currencies={
           Object.values(country.currencies || {})
-            .map((currency: any) => currency.name)
+            .map((currency) => (currency as { name: string }).name)
             .join(", ") || "N/A"
         }
         languages={Object.values(country.languages || {}).join(", ") || "N/A"}

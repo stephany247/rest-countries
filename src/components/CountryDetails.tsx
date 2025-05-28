@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { NavButton } from "./Buttons";
+import { CountryCardProps } from "./CountriesContainer";
 
-type CountryProps = {
+type CountryDetailsProps = {
   flag: string;
   alt: string;
   name: string;
@@ -14,7 +15,17 @@ type CountryProps = {
   currencies: string;
   languages: string;
   borders: string[];
-  allCountries: any[];
+  allCountries: CountrySummary[];
+};
+
+type CountrySummary = {
+  cca3: string;
+  name: {
+    common: string;
+    official?: string;
+    nativeName?: Record<string, { official: string; common: string }>;
+  };
+  // add other fields if you need
 };
 
 function InfoGroup({
@@ -48,10 +59,11 @@ function CountryDetails({
   languages,
   borders,
   allCountries,
-}: CountryProps) {
+}: CountryDetailsProps) {
   const borderCountries = borders
     .map((code) => allCountries.find((country) => country.cca3 === code))
-    .filter(Boolean);
+    // .filter(Boolean);
+    .filter((country): country is CountryCardProps => country !== undefined);
 
   return (
     <section className="grid md:grid-cols-2 gap-8 md:gap-16 items-center mt-8 md:mt-12">
@@ -94,8 +106,8 @@ function CountryDetails({
               borderCountries.map((country) => (
                 <NavButton
                   key={country.cca3}
-                  to={`/$${country.name.common.toLowerCase()}`}
-                  className="text-sm md:text-base font-normal h-8"
+                  to={`/${country.name.common.toLowerCase()}`}
+                  className="text-sm md:text-base font-normal h-8 cursor-pointer"
                 >
                   {country.name.common}
                 </NavButton>

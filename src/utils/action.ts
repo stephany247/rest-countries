@@ -1,3 +1,5 @@
+import { CountryCardProps } from "@/components/CountriesContainer";
+
 export type Country = {
   cca3: string;
   name: { common: string };
@@ -77,26 +79,33 @@ export async function getCountriesByRegion(region: string) {
 }
 
 // utils/action.ts
-export async function getCountriesBySearch(search: string, region: string) {
+export async function getCountriesBySearch(
+  search: string,
+  region: string
+): Promise<CountryCardProps[]> {
   try {
-    let countries: any[] = [];
+    let countries = [];
 
     if (region === "All") {
       const res = await fetch("https://restcountries.com/v3.1/all");
       countries = await res.json();
     } else {
-      const res = await fetch(`https://restcountries.com/v3.1/region/${region}`);
+      const res = await fetch(
+        `https://restcountries.com/v3.1/region/${region}`
+      );
       countries = await res.json();
     }
 
     if (!search) return countries;
 
-    return countries.filter((country) => {
-      const name = country.name.common.toLowerCase();
-      const code = country.cca3.toLowerCase();
-      const input = search.toLowerCase();
-      return name.includes(input) || code === input;
-    });
+    return countries.filter(
+      (country: { name: { common: string }; cca3: string }) => {
+        const name = country.name.common.toLowerCase();
+        const code = country.cca3.toLowerCase();
+        const input = search.toLowerCase();
+        return name.includes(input) || code === input;
+      }
+    );
   } catch (err) {
     console.error("Error searching countries:", err);
     return [];
@@ -110,11 +119,13 @@ export async function getCountriesByName(query: string) {
     const res = await fetch("https://restcountries.com/v3.1/all");
     const allCountries = await res.json();
 
-    return allCountries.filter((country: any) => {
-      const name = country.name.common.toLowerCase();
-      const code = country.cca3.toLowerCase();
-      return name.includes(input) || code === input;
-    });
+    return allCountries.filter(
+      (country: { name: { common: string }; cca3: string }) => {
+        const name = country.name.common.toLowerCase();
+        const code = country.cca3.toLowerCase();
+        return name.includes(input) || code === input;
+      }
+    );
   } catch (error) {
     console.error("Error searching countries:", error);
     return [];

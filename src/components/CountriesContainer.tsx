@@ -13,11 +13,18 @@ type CountriesContainerProps = {
 
 export type CountryCardProps = {
   cca3: string;
-  flags: any;
+  flags: {
+    svg: string;
+    alt: string;
+    [key: string]: string;
+  };
   flag: string;
   alt: string;
-  name: string;
-  capital: string;
+  name: {
+    common: string;
+    [key: string]: string;
+  };
+  capital: string[];
   region: string;
   population: number;
 };
@@ -61,7 +68,7 @@ function CountriesContainer({
           </Button>
         </div>
       ) : (
-        countries.map((country: any) => (
+        countries.map((country) => (
           <CountryCard
             key={country.cca3}
             name={country.name.common}
