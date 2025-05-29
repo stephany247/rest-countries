@@ -9,13 +9,17 @@ function LoadingCards({ className }: { className: string }) {
       <SkeletonCard />
       <SkeletonCard />
       <SkeletonCard />
+      <SkeletonCard />
+      <SkeletonCard />
+      <SkeletonCard />
+      <SkeletonCard />
     </div>
   );
 }
 
 export function SkeletonCard() {
   return (
-    <div>
+    <div className="w-full">
       <Skeleton className="h-[400px] w-80 rounded-md">
         <Skeleton className="h-4 mt-2 w-3/4" />
         <Skeleton className="h-4 mt-2 w-1/2" />
