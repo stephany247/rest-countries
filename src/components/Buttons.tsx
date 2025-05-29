@@ -22,7 +22,7 @@ export function NavButton({
     <Button
       type="button"
       onClick={() => router.push(to)}
-      className={`flex items-center gap-2 capitalize shadow rounded ${className}`}
+      className={`flex items-center gap-2 capitalize shadow rounded cursor-pointer ${className}`}
       size="lg"
       variant="outline"
     >

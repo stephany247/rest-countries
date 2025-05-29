@@ -23,7 +23,7 @@ function ModeToggle() {
     <Toggle
       aria-label="Toggle theme"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="md:text-xl capitalize"
+      className="md:text-xl capitalize p-4 md:p-6 cursor-pointer"
     >
       {theme === "dark" ? (
         <div className="flex items-center gap-2">
